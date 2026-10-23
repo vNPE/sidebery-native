@@ -1,4 +1,4 @@
-# Sidebery Hover
+# Sidebery Native
 
 A compact sidebar for Firefox and LibreWolf that expands on hover. Keep Sidebery's tab icons visible while browsing, then move the pointer over the sidebar to reveal tab titles and the tab tree.
 
@@ -12,6 +12,18 @@ The expanded sidebar overlays the page, so the page stays in place.
 - Sidebar title and close-button headers are hidden for all sidebar panels.
 - Rules for sidebars placed on either the left or right.
 - CSS only, with no build step.
+
+## Screenshots
+
+Compare Firefox's native vertical sidebar with Sidebery Native in the same dark setup. Colors and tab styling depend on your browser theme and Sidebery settings.
+
+| Native collapsed | Sidebery collapsed | Native expanded | Sidebery expanded |
+| :---: | :---: | :---: | :---: |
+| <img src="native-sidebar.png" alt="Firefox's native sidebar collapsed to tab icons" height="560"> | <img src="sidebery-closed.png" alt="Sidebery Native collapsed to tab icons, with its panel selector above the tabs" height="560"> | <img src="native-expanded.png" alt="Firefox's native sidebar expanded to show tab titles and sidebar tools" height="560"> | <img src="sidebery-expanded.png" alt="Sidebery Native expanded to show tab titles and Sidebery's panel controls" height="560"> |
+
+**Collapsed:** Sidebery stays narrow with tab icons and a new-tab button. The styles editor snippet hides tab titles and close buttons and removes tree indentation so child-tab icons fit in the 37px sidebar.
+
+**Expanded:** Moving the pointer over Sidebery widens it to 250px and restores its normal tab layout. Sidebery's own panel controls remain available; Firefox's separate tools column and the Sidebery title/close header are hidden. Moving back onto the page collapses the sidebar again.
 
 ## Requirements
 
