@@ -8,6 +8,7 @@ The expanded sidebar overlays the page, so the page stays in place.
 
 - **37px collapsed width** and **250px expanded width**, both customizable.
 - **180ms animation** when expanding and collapsing.
+- Optional [static mode](#disable-hover-and-use-a-static-sidebar) with a fixed sidebar width.
 - Firefox's native sidebar column, tools and extensions buttons, toggle, and resize handles are hidden while Sidebery is open.
 - Sidebar title and close-button headers are hidden for all sidebar panels.
 - Rules for sidebars placed on either the left or right.
@@ -29,6 +30,10 @@ Compare Firefox's native vertical sidebar with Sidebery Native in the same dark 
 
 - A recent desktop version of Firefox or LibreWolf with support for CSS nesting and `:has()`.
 - [Sidebery](https://addons.mozilla.org/firefox/addon/sidebery/) installed. The internal styles below target Sidebery v5.
+
+### Reference setup
+
+The author's setup uses **LibreWolf 158.0-1** and **Sidebery 5.6.1**. This is the reference configuration for the screenshots and customization.
 
 ## Installation
 
@@ -100,6 +105,8 @@ Set Sidebery's navigation bar to a **horizontal layout** so a separate vertical 
 
 Open Sidebery and move the pointer over the sidebar to expand it. Move back onto the page to collapse it.
 
+Prefer a sidebar that stays open? Follow the [static mode instructions](#disable-hover-and-use-a-static-sidebar) below.
+
 **Optional: remove the horizontal tab strip.** In Firefox, right-click the toolbar or tab strip and choose **Turn on Vertical Tabs**, then open Sidebery again. This customization hides the native vertical sidebar column while Sidebery is open. See [Mozilla's vertical tabs instructions](https://support.mozilla.org/en-US/kb/use-sidebar-access-tools-and-vertical-tabs).
 
 ## Customization
@@ -118,6 +125,25 @@ Edit the settings near the top of `userChrome.css`:
 Restart the browser after editing the profile stylesheet.
 
 If you change the collapsed width, adjust the `50px` breakpoint in the Sidebery styles as needed. Keep it above the collapsed width and below the expanded width.
+
+### Disable hover and use a static sidebar
+
+To keep the sidebar permanently expanded, set **both width values to the same size** near the top of `userChrome.css`:
+
+```css
+:root {
+  --sidebery-collapsed: 250px;
+  --sidebery-expanded: 250px;
+}
+```
+
+Restart the browser. The sidebar will stay at 250px, with no width change on hover. It reserves that width beside the page, so it stays open without covering the page. Tab titles and tree indentation use your normal Sidebery settings.
+
+For a **permanently compact sidebar**, set both values to `37px` instead. With the supplied Sidebery styles, tab titles and close buttons stay hidden and tree indentation stays at zero.
+
+You can use another fixed width by giving both values the same size. Keep the Sidebery styles' `50px` breakpoint in mind: those compact tab overrides apply whenever the sidebar is 50px wide or narrower.
+
+To restore hover expansion, set the collapsed width back to `37px` and the expanded width to `250px`, then restart the browser.
 
 ### Animation speed
 
