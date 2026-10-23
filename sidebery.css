@@ -1,0 +1,19 @@
+/*
+ * Sidebery hover sidebar - internal tab styles
+ * Paste into Sidebery Settings > Styles editor > Sidebar.
+ * Pair with userChrome.css for the browser's hover and width behavior.
+ */
+
+/* Compact tab layout while the sidebar is narrow. */
+@media (max-width: 50px) {
+  /* Keep child-tab icons visible by removing tree indentation. */
+  #root {
+    --tabs-indent: 0px !important;
+  }
+
+  /* Show icons without tab titles or close buttons. */
+  .Tab .title,
+  .Tab .close {
+    display: none !important;
+  }
+}
