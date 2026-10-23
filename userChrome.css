@@ -1,0 +1,121 @@
+/*
+ * Sidebery hover sidebar
+ * Firefox / LibreWolf - userChrome.css
+ *
+ * Keeps Sidebery at 37px and expands it to 250px on hover. The expanded
+ * sidebar overlays the page, so the page does not shift when it opens.
+ * Firefox's native sidebar column, toggle and resize handles are hidden
+ * while Sidebery is open. Sidebar headers are hidden for all panels.
+ *
+ * Installation:
+ *   1. Install Sidebery.
+ *   2. In about:config, set the following preference to true:
+ *      toolkit.legacyUserProfileCustomizations.stylesheets
+ *   3. Save this file as chrome/userChrome.css inside the active profile
+ *      folder (find it in about:support), then restart the browser.
+ *
+ * This file styles the browser interface. Rules for Sidebery's tab labels
+ * and tree indentation belong in Sidebery's own Styles editor.
+ */
+
+/* =====================================================================
+ * 1. Settings
+ * ===================================================================== */
+
+:root {
+  --sidebery-collapsed: 37px;
+  --sidebery-expanded: 250px;
+}
+
+/* =====================================================================
+ * 2. Sidebar headers
+ * Hide the title and close button for ALL sidebar panels, even when
+ * Sidebery is not open. Both selectors cover different sidebar layouts.
+ * ===================================================================== */
+
+#sidebar-header,
+#sidebar-panel-header {
+  display: none !important;
+}
+
+/* =====================================================================
+ * 3. Sidebery behavior
+ * Firefox identifies Sidebery by its extension ID, not the word "sidebery".
+ * Apply the nested rules only when its sidebar is open.
+ * ===================================================================== */
+
+#main-window:has(
+  #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden])
+) {
+  /* 3.1. Remove Firefox's native sidebar column and controls.
+   * #sidebar-main and #sidebar-container cover different browser versions.
+   * Hiding the container also removes its tools and extensions buttons.
+   */
+  #sidebar-main,
+  #sidebar-container,
+  #sidebar-launcher-splitter,
+  #sidebar-splitter,
+  #sidebar-button {
+    display: none !important;
+  }
+
+  /* 3.2. Set the sidebar size and remove unused space. */
+  #sidebar-box {
+    --sidebery-width: var(--sidebery-collapsed);
+
+    flex: 0 0 auto !important;
+    box-sizing: border-box !important;
+    width: var(--sidebery-width) !important;
+    min-width: var(--sidebery-width) !important;
+    max-width: var(--sidebery-width) !important;
+
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+
+    /* Cancel the extra width with a negative margin. This leaves only the
+     * collapsed width reserved in the page layout, including on hover.
+     */
+    margin-inline:
+      0
+      calc(var(--sidebery-collapsed) - var(--sidebery-width))
+      !important;
+
+    /* Keep the expanded sidebar above the page with an opaque background. */
+    position: relative !important;
+    z-index: 3 !important;
+    background-color: var(--sidebar-background-color) !important;
+
+    /* Animate widths and margins together to keep the page stationary.
+     * Change all five durations together to adjust the animation speed.
+     */
+    transition:
+      width 180ms ease,
+      min-width 180ms ease,
+      max-width 180ms ease,
+      margin-inline-start 180ms ease,
+      margin-inline-end 180ms ease !important;
+  }
+
+  /* 3.3. Expand on hover; leaving the sidebar restores the collapsed width. */
+  #sidebar-box:hover {
+    --sidebery-width: var(--sidebery-expanded);
+  }
+
+  /* 3.4. For a right-side sidebar, compensate on the opposite edge.
+   * The two attributes cover different browser versions.
+   */
+  #sidebar-box:is([positionend], [sidebar-positionend]) {
+    margin-inline:
+      calc(var(--sidebery-collapsed) - var(--sidebery-width))
+      0 !important;
+  }
+
+  /* 3.5. Let the embedded sidebar and its wrapper shrink to the rail width. */
+  #sidebar,
+  .sidebar-browser-stack {
+    min-width: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
